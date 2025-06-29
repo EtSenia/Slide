@@ -4,35 +4,44 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   width: 100%;
   height: 100%;
   font-family: sans-serif;
   overflow: hidden;
   background: #111;
-  color: #fff;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 .slider {
   position: relative;
-  width: 100%;
-  height: 90vh;
+  aspect-ratio: 16 / 9;
+  justify-content: center;
   overflow: hidden;
 }
 
 .slide {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 1920px;
+  aspect-ratio: 16 / 9;
   padding: 2rem;
-  left: 100%;
   opacity: 0;
+  transform-origin: top left;
   transition: all 0.6s ease;
-  background: #222;
+  background: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .slide.active {
@@ -70,4 +79,48 @@ button {
 
 button:hover {
   background: #666;
+}
+
+.text {
+  position: absolute;
+}
+
+#prev,
+#next {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 10;
+}
+
+#prev {
+  left: 0px;
+  background-image: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.5)
+  );
+}
+
+#next {
+  right: 0px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.5)
+  );
+}
+
+#prev:hover,
+#next:hover {
+  opacity: 1;
 }

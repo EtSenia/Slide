@@ -1,23 +1,34 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Presentación Animada</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Presentación Animada</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="slider">
-    <div class="slide active"> <h1>Slide 1</h1> <p>Contenido de la primera diapositiva.</p> </div>
-    <div class="slide"> <h1>Slide 2</h1> <p>Segunda diapositiva con más información.</p> </div>
-    <div class="slide"> <h1>Slide 3</h1> <p>La última slide, ¡gracias!</p> </div>
-  </div>
+    <div class="slider">
+        <button id="prev" class="nav-button" onclick="prevSlide()"><</button>
+        <button id="next" class="nav-button" onclick="nextSlide()">></button>
+<div class="slide" id="slide0">
+  <p class="text" style="left:10px;top:1000px;width:20px;font-size:30px;font-family:Arial;text-align:center;">esta es
+		unaa.    prueba
+		</p>
+  <img style="position:absolute;left:0px;top:0px;width:300px;height:200px;content:url('image.png');">
+</div>
+<div class="slide"style="background-color:#223" id="slide1">
+  <img style="position:absolute;left:50%;top:50%;width:300px;height:200px;content:url('image.png');">
+</div>
 
-  <div class="controls">
-    <button onclick="prevSlide()">⟨ Anterior</button>
-    <button onclick="nextSlide()">Siguiente ⟩</button>
-  </div>
+    </div>
+        
+    <div class="controls">
+        <button onclick="prevSlide()">⟨ Anterior</button>
+        <button id="toggle-mode" class="nav-button" onclick="toggleFullscreen()">Presentar</button>
+        <button onclick="nextSlide()">Siguiente ⟩</button>
+    </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
