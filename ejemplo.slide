@@ -1,0 +1,27 @@
+Slide Slide1 {
+	Text {
+		content="""Presentacion
+		de
+		prueba
+		""";
+		position= 50%, 50px;
+		font-size= 30;
+		font-family= "Arial";
+		align= center;
+	}
+	Image {
+		position= 40%, 30%;
+		width= 300px;
+		height= 200px;
+		src= "image.png";
+	}
+};
+Slide Slide2 {
+	bg= #23e2d4;
+	Image {
+		position= 50%, 50%;
+		width= 300px;
+		height= 200px;
+		src= "https://sumandonegocios.wordpress.com/wp-content/uploads/2016/07/emprendedor-directo.jpg?w=1200&h=800&crop=1";
+	}
+};
