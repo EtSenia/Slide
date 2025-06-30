@@ -7,7 +7,9 @@
 #include <map>
 #include <string>
 #include <fstream>
+#include <filesystem>
 
+namespace fs = std::filesystem;
 using namespace antlr4;
 using namespace std;
 
@@ -19,7 +21,12 @@ class SlideDriver : public SlideBaseVisitor
 public:
     void saveFile(const string &filePath, const string &content)
     {
-        ofstream outFile(filePath);
+        if (!fs::exists("Website")) {
+            fs::create_directories("Website");
+        }
+
+        std::string fullPath = "Website/" + filePath;
+        ofstream outFile(fullPath);
         if (outFile.is_open())
         {
             outFile << content;
@@ -27,7 +34,7 @@ public:
         }
         else
         {
-            std::cerr << "Error al abrir el archivo " + filePath + " para escribir. \n";
+            std::cerr << "Error al abrir el archivo " + fullPath + " para escribir. \n";
         }
     }
 
@@ -228,132 +235,135 @@ public:
 
     std::string generateCSS()
     {
-        return R"(
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+        return R"(* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body,
 html {
-width: 100%;
-height: 100%;
-font-family: sans-serif;
-overflow: hidden;
-background: #111;
-justify-content: center;
-align-items: center;
-margin: auto;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    overflow: hidden;
+    background: #111;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 body {
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .slider {
-position: relative;
-aspect-ratio: 16 / 9;
-justify-content: center;
-overflow: hidden;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .slide {
-position: absolute;
-width: 1920px;
-aspect-ratio: 16 / 9;
-padding: 2rem;
-opacity: 0;
-transform-origin: top left;
-transition: all 0.6s ease;
-background: #fff;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-overflow: hidden;
+    position: absolute;
+    width: 1920px;
+    aspect-ratio: 16 / 9;
+    padding: 2rem;
+    opacity: 0;
+    transform-origin: top left;
+    transition: all 0.6s ease;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .slide.active {
-left: 0;
-opacity: 1;
-z-index: 2;
+    left: 0;
+    opacity: 1;
+    z-index: 2;
 }
 
 .slide.exit-left {
-left: -100%;
-opacity: 0;
+    left: -100%;
+    opacity: 0;
 }
 
 .slide.exit-right {
-left: 100%;
-opacity: 0;
+    left: 100%;
+    opacity: 0;
 }
 
 .controls {
-text-align: center;
-padding: 1rem;
+    text-align: center;
+    padding: 1rem;
 }
 
 button {
-background: #444;
-color: white;
-border: none;
-padding: 0.7rem 1.2rem;
-margin: 0 1rem;
-cursor: pointer;
-font-size: 1rem;
-border-radius: 5px;
-transition: background 0.3s;
+    background: #444;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    margin: 0 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background 0.3s;
 }
 
 button:hover {
-background: #666;
+    background: #666;
 }
 
 .text {
-position: absolute;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+img {    
+    transform: translate(-50%, -50%);
 }
 
 #prev,
 #next {
-position: absolute;
-top: 0;
-height: 100%;
-width: 20%;
-opacity: 0;
-margin: 0;
-padding: 0;
-color: white;
-background: transparent;
-border: none;
-cursor: pointer;
-font-size: 1.2rem;
-z-index: 10;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 20%;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
 }
 
 #prev {
-left: 0px;
-background-image: linear-gradient(
-    to left,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.5)
+    left: 0px;
+    background-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.5)
 );
 }
 
 #next {
-right: 0px;
-background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.5)
+    right: 0px;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.5)
 );
 }
 
 #prev:hover,
 #next:hover {
-opacity: 1;
+    opacity: 1;
 }
 
 )";
@@ -361,105 +371,104 @@ opacity: 1;
 
     std::string generateJS()
     {
-        return R"delimeter(
-const slides = document.querySelectorAll(".slide");
+        return R"delimeter(const slides = document.querySelectorAll(".slide");
 const slider = document.querySelector(".slider");
 const controls = document.querySelector(".controls");
 
 let current = 0;
 
 function showSlide(index, direction) {
-const currentSlide = slides[current];
-currentSlide.classList.remove("active");
+    const currentSlide = slides[current];
+    currentSlide.classList.remove("active");
 
-if (direction === "next") {
-    currentSlide.classList.add("exit-left");
-} else {
-    currentSlide.classList.add("exit-right");
-}
+    if (direction === "next") {
+        currentSlide.classList.add("exit-left");
+    } else {
+        currentSlide.classList.add("exit-right");
+    }
 
-setTimeout(() => {
-    currentSlide.classList.remove("exit-left", "exit-right");
-}, 600);
+    setTimeout(() => {
+        currentSlide.classList.remove("exit-left", "exit-right");
+    }, 600);
 
-current = index;
-const nextSlide = slides[current];
-nextSlide.classList.add("active");
+    current = index;
+    const nextSlide = slides[current];
+    nextSlide.classList.add("active");
 }
 
 function nextSlide() {
-if (current === slides.length - 1) {
-    return;
-}
-const next = (current + 1) % slides.length;
-showSlide(next, "next");
-}
+    if (current === slides.length - 1) {
+        return;
+    }
+    const next = (current + 1) % slides.length;
+    showSlide(next, "next");
+    }
 
-function prevSlide() {
-if (current === 0) {
-    return;
-}
-const prev = (current - 1 + slides.length) % slides.length;
-showSlide(prev, "prev");
+    function prevSlide() {
+    if (current === 0) {
+        return;
+    }
+    const prev = (current - 1 + slides.length) % slides.length;
+    showSlide(prev, "prev");
 }
 
 document.addEventListener("keydown", (event) => {
-if (event.key === "ArrowRight") {
-    nextSlide();
-} else if (event.key === "ArrowLeft") {
-    prevSlide();
-}
+    if (event.key === "ArrowRight") {
+        nextSlide();
+    } else if (event.key === "ArrowLeft") {
+        prevSlide();
+    }
 });
 
 function adjustSlideSize() {
-const vw = window.innerWidth;
-const vh = window.innerHeight;
-let maxWidth = vw * 0.9;
-let maxHeight = vh - 75;
-if (document.fullscreenElement) {
-    maxWidth = document.fullscreenElement.clientWidth;
-    maxHeight = document.fullscreenElement.clientHeight;
-}
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    let maxWidth = vw * 0.9;
+    let maxHeight = vh - 75;
+    if (document.fullscreenElement) {
+        maxWidth = document.fullscreenElement.clientWidth;
+        maxHeight = document.fullscreenElement.clientHeight;
+    }
 
-const newScaleW = maxWidth / 1920;
-const newScaleH = maxHeight / 1080;
-const newScale = Math.min(newScaleW, newScaleH);
+    const newScaleW = maxWidth / 1920;
+    const newScaleH = maxHeight / 1080;
+    const newScale = Math.min(newScaleW, newScaleH);
 
-slider.style.width = `${maxWidth}px`;
-for (let i = 0; i < slides.length; i++) {
-    slides[i].style.transform = `scale(${newScale})`;
-}
-console.log(maxWidth);
+    let width = newScaleW > newScaleH ? maxHeight * 16 / 9 : maxWidth;
+    slider.style.width = `${width}px`;
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.transform = `scale(${newScale})`;
+    }
 }
 
 function checkFullscreen() {
-if (document.fullscreenElement) {
-    controls.style.display = "none";
-} else {
-    controls.style.display = "block";
-    adjustSlideSize();
-}
+    if (document.fullscreenElement) {
+        controls.style.display = "none";
+    } else {
+        controls.style.display = "block";
+        adjustSlideSize();
+    }
 }
 
 window.addEventListener("fullscreenchange", checkFullscreen);
 
 function toggleFullscreen() {
-if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch((err) => {
-    console.log("Error al intentar activar pantalla completa: " + err);
-    });
-} else {
-    if (document.exitFullscreen) {
-    document.exitFullscreen().catch((err) => {
-        console.log("Error al intentar salir de pantalla completa: " + err);
-    });
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch((err) => {
+        console.log("Error al intentar activar pantalla completa: " + err);
+        });
+    } else {
+        if (document.exitFullscreen) {
+        document.exitFullscreen().catch((err) => {
+            console.log("Error al intentar salir de pantalla completa: " + err);
+        });
+        }
     }
-}
 }
 
 window.addEventListener("resize", adjustSlideSize);
 adjustSlideSize();
 slides[0].classList.add("active");
-        )delimeter";
+)delimeter";
     }
 };
