@@ -1,4 +1,11 @@
 Slide Slide1 {
+	bg= "https://i.pinimg.com/originals/02/3d/81/023d81bed1aada861567d2e68b1cfdb8.jpg";
+	Image {
+		position= 50%, 50%;
+		width= 300px;
+		height= 200px;
+		src= "image.png";
+	}
 	Text {
 		content="""Presentacion
 		de
@@ -8,13 +15,8 @@ Slide Slide1 {
 		font-size= 30;
 		font-family= "Arial";
 		align= center;
-	}
-	Image {
-		position= 40%, 30%;
-		width= 300px;
-		height= 200px;
-		src= "image.png";
-	}
+		color= #fff;
+	}	
 };
 Slide Slide2 {
 	bg= #23e2d4;
@@ -22,6 +24,6 @@ Slide Slide2 {
 		position= 50%, 50%;
 		width= 300px;
 		height= 200px;
-		src= "https://sumandonegocios.wordpress.com/wp-content/uploads/2016/07/emprendedor-directo.jpg?w=1200&h=800&crop=1";
+		src= "image.png";
 	}
 };
