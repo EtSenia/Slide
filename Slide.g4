@@ -25,20 +25,22 @@ text_prop   : textCont
             | fontSize
             | fontFam
             | align
+            | textColor
             ;
 
 src         : 'src=' STR;
-bg          : 'bg=' COLOR ';';
+bg          : 'bg=' (COLOR | STR) ';';
 
 position    : 'position=' UNIDAD ',' UNIDAD;
 rotation    : 'rotation=' INT;
 width       : 'width='  UNIDAD;
 height      : 'height='  UNIDAD;
 
-textCont    : 'content=' STR;
+textCont    : 'content=' (STR | TEXT_BLOCK);
 fontSize    : 'font-size=' INT;
 fontFam     : 'font-family=' STR;
 align       : 'align=' ALIGN;
+textColor   : 'color=' COLOR;
 
 ALIGN: 'center'
     |  'left'
@@ -51,7 +53,7 @@ INT : [0-9]+ ;
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
 COLOR: '#'[a-fA-F0-9]*;
 STR : '"' (~[\r\n])* '"' ;
-TEXT_BLOCK : '"""' .*? '"""' -> type(STR);
+TEXT_BLOCK : '"""' .*? '"""';
 LINE_COMMENT: '//' ~[\r\n]* -> skip;
 BLOCK_COMMENT: '/*' .*? '*/' -> skip;
 
