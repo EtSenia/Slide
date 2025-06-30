@@ -77,7 +77,14 @@ public:
         {
             if (bg)
             {
-                bgcolor = "style=\"background-color:" + bg->COLOR()->getText() + "\"";
+                if(bg->COLOR())
+                {
+                    bgcolor = "style=\"background-color:" + bg->COLOR()->getText() + "\"";
+                } else if (bg->STR()){
+                    string url = bg->STR()->getText();
+                    url = url.substr(1, url.size() - 2);
+                    bgcolor = "style=\"background-image: url('" + url + "'); background-size: cover;\"";
+                }
             }
         }
         slideOutput += "        <div class=\"slide\"" + bgcolor + " id=\"" + slideId + "\">\n";
@@ -103,13 +110,12 @@ public:
         {
             if (textProp && textProp->textCont())
             {
-                content = textProp->textCont()->STR()->getText();
-                if (content.size() >= 4 && content.substr(0, 3) == "\"\"\"" && content.substr(content.size() - 3) == "\"\"\"")
-                {
+                if(textProp->textCont()->TEXT_BLOCK()) {
+                    content = textProp->textCont()->TEXT_BLOCK()->getText();                    
                     content = content.substr(3, content.size() - 6);
-                }
-                else if (content.size() >= 2 && content.front() == '\"' && content.back() == '\"')
+                } else if (textProp->textCont()->STR())
                 {
+                    content = textProp->textCont()->STR()->getText(); 
                     content = content.substr(1, content.size() - 2);
                 }
                 content.erase(remove(content.begin(), content.end(), '\t'), content.end());
@@ -201,6 +207,11 @@ public:
     std::any visitHeight(SlideParser::HeightContext *ctx) override
     {
         slideOutput += "height:" + ctx->UNIDAD()->getText() + ";";
+        return nullptr;
+    }
+
+    std::any visitTextColor(SlideParser::TextColorContext *ctx) override {
+        slideOutput += "color:" + ctx->COLOR()->getText() + ";";
         return nullptr;
     }
 
