@@ -5,6 +5,8 @@
 
 #include <cmath>
 #include <map>
+#include <iostream>
+#include <vector>
 #include <string>
 #include <fstream>
 #include <filesystem>
@@ -16,6 +18,7 @@ using namespace std;
 class SlideDriver : public SlideBaseVisitor
 {
     string slideOutput;
+    std::vector<std::string> filters;
     int slideCount = 0;
 
 public:
@@ -73,17 +76,19 @@ public:
     {
         string slideId = "slide" + to_string(slideCount++);
         string bgcolor;
-        for (auto *bg : ctx->bg())
+        for (auto *background : ctx->background())
         {
-            if (bg)
+            if (background)
             {
-                if(bg->COLOR())
-                {
-                    bgcolor = "style=\"background-color:" + bg->COLOR()->getText() + "\"";
-                } else if (bg->STR()){
-                    string url = bg->STR()->getText();
-                    url = url.substr(1, url.size() - 2);
-                    bgcolor = "style=\"background-image: url('" + url + "'); background-size: cover;\"";
+                for(auto *bg : background->bg()){
+                    if(bg->HEX())
+                    {
+                        bgcolor = "style=\"background-color:" + bg->HEX()->getText() + "\"";
+                    } else if (bg->STR()){
+                        string url = bg->STR()->getText();
+                        url = url.substr(1, url.size() - 2);
+                        bgcolor = "style=\"background-image: url('" + url + "'); background-size: cover;\"";
+                    }
                 }
             }
         }
@@ -143,15 +148,21 @@ public:
     std::any visitImg(SlideParser::ImgContext *ctx) override
     {
         slideOutput += "            <img style=\"position:absolute;";
+        filters.clear();
         for (auto *child : ctx->children)
         {
             visit(child);
+        }
+        slideOutput += " filter:";
+        for (auto f : filters)
+        {
+            slideOutput +=  f + " ";
         }
         slideOutput += "\">\n";
         return nullptr;
     }
 
-    std::any visitBg(SlideParser::BgContext *ctx) override
+    std::any visitBackground(SlideParser::BackgroundContext *ctx) override
     {
         return nullptr;
     }
@@ -161,6 +172,50 @@ public:
         return nullptr;
     }
 
+    std::any visitBlur(SlideParser::BlurContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitBrightness(SlideParser::BrightnessContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitContrast(SlideParser::ContrastContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitGrayscale(SlideParser::GrayscaleContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitHue_rotate(SlideParser::Hue_rotateContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitInvert(SlideParser::InvertContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitSaturate(SlideParser::SaturateContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitOpacity(SlideParser::OpacityContext *ctx) override {
+        filters.push_back(ctx->getText());
+        return visitChildren(ctx);
+    }
+
+    std::any visitFilter(SlideParser::FilterContext *ctx) override {
+        return visitChildren(ctx);
+    }
+    
     std::any visitFontSize(SlideParser::FontSizeContext *ctx) override
     {
         slideOutput += "font-size:" + ctx->INT()->getText() + "px;";
@@ -211,7 +266,7 @@ public:
     }
 
     std::any visitTextColor(SlideParser::TextColorContext *ctx) override {
-        slideOutput += "color:" + ctx->COLOR()->getText() + ";";
+        slideOutput += "color:" + ctx->HEX()->getText() + ";";
         return nullptr;
     }
 

@@ -1,29 +1,262 @@
-Slide Slide1 {
-	bg= "https://i.pinimg.com/originals/02/3d/81/023d81bed1aada861567d2e68b1cfdb8.jpg";
-	Image {
-		position= 50%, 50%;
-		width= 300px;
-		height= 200px;
-		src= "image.png";
+slide {
+	bg {
+		bg= #22211E;
 	}
-	Text {
-		content="""Presentacion
-		de
-		prueba
+	image {
+		position=80%, 50%;
+		width= 40%;
+		height= 100%;
+		src= "https://www.builderspace.com/wp-content/uploads/2022/05/modern-buildings-1024x682.jpg";
+	}
+	image {
+		position=1820px, 980px;
+		width= 200px;
+		height= 200px;
+		src= "https://i.pinimg.com/originals/e8/24/46/e82446f5b648d07ff21bf72bbfc69c86.gif";
+		filter= opacity(30%);
+	}
+	text {
+		content= "Teoría de compiladores";
+		position= 30%, 25%;
+		width= 800px;
+		align= center;
+		font-size= 60;
+		color= #fff;
+	}
+	image {
+		position= 30%, 80%;
+		src= "https://hpc-wiki.info/mediawiki/hpc_images/thumb/8/8a/Compiler_Shematic.png/1000px-Compiler_Shematic.png";
+	}
+	text {
+		content= "Trabajo Final";
+		position= 30%, 30%;
+		width= 600px;
+		align= center;
+		font-size= 40;
+		color=#f80;
+	}
+	text {
+		content= "Profesor:";
+		position= 10%, 40%;
+		font-size= 40;
+		color=#f80;
+	}	
+	text {
+		content= "Peter Jonathan Montalvo García";
+		position= 580px, 40%;
+		font-size= 40;
+		color=#fff;
+	}	
+	text {
+		content= "Alumno:";
+		position= 10%, 50%;
+		font-size= 40;
+		color=#f80;
+	}	
+	text {
+		content= "Guido Yair Abel Jeri Saldaña";
+		position= 540px, 50%;
+		font-size= 40;
+		color=#fff;
+	}
+}
+
+slide {
+	background {		
+		bg= "https://wallpapers.com/images/featured/1920-x-1080-night-city-y13hx1qucv0ztepv.webp";
+	}
+	image {
+		position= 50%, 50%;
+		width= 1400px;
+		height= 800px;
+		src= "https://static.vecteezy.com/system/resources/thumbnails/044/303/796/small/abstract-wrapping-paper-rolling-on-a-black-background-concept-of-gifts-and-celebrations-design-two-rolls-of-decorative-gift-paper-in-motion-video.jpg";
+		filter= opacity(80%);
+	}
+	text {
+		content="""Problemática y
+		motivación
 		""";
-		position= 50%, 50px;
-		font-size= 30;
+		position= 50%, 25%;
+		font-size= 70;
 		font-family= "Arial";
 		align= center;
 		color= #fff;
-	}	
-};
-Slide Slide2 {
-	bg= #23e2d4;
-	Image {
-		position= 50%, 50%;
-		width= 300px;
-		height= 200px;
-		src= "image.png";
 	}
-};
+	image {
+		position= 50%, 60%;
+		width= 800px;
+		height= 400px;
+		src= "https://prezentium.com/wp-content/uploads/2024/10/5-presentation-software-.webp";
+	}
+}
+slide {
+	background {		
+		bg= #22211E;
+	}
+	image {
+		position= 40%, 50%;
+		width= 80%;
+		height= 100%;
+		src= "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+		filter= blur(5px);
+	}
+	image {
+		position= 40%, 50%;
+		width= 1400px;
+		height= 800px;
+		src= "https://static.vecteezy.com/system/resources/thumbnails/044/303/796/small/abstract-wrapping-paper-rolling-on-a-black-background-concept-of-gifts-and-celebrations-design-two-rolls-of-decorative-gift-paper-in-motion-video.jpg";
+		filter= opacity(80%);
+	}
+	text {
+		content="Objetivo";
+		position= 40%, 25%;
+		font-size= 70;
+		font-family= "Arial";
+		align= center;
+		color=#f80;
+	}
+	text {
+		content="""Crear un lenguaje que permita describir
+		presentaciones de forma estructurada y legible
+		(posiciones, tamaños, colores, imagenes)""";
+		position= 40%, 40%;
+		font-size= 40;
+		font-family= "Arial";
+		align= center;
+		color= #fff;
+	}
+	image {
+		position= 40%, 65%;
+		width= 300px;
+		height= 300px;
+		src= "https://cdn-icons-png.flaticon.com/512/1632/1632633.png";
+	}
+}
+slide {
+	bg {
+		bg= #22211E;
+	}
+	text {
+		position= 50%, 10%;
+		color= #f80;
+		font-size= 70;
+		content= "Gramática .G4";
+	}
+	text{
+		position= 18%, 50%;
+		color= #fff;
+		font-size= 17;
+		font-family= "Courier New";
+		content= """grammar Slide;
+			prog: stat* EOF;
+			stat: expr;
+			expr: slide;
+
+			slide    : 'slide' '{' (text | img | background)* '}';
+			text    : 'text'  '{' ((transform | text_prop) ';')* '}';
+			img     : 'image' '{' ((transform | src | filter) ';')* '}';
+			background : ('background' | 'bg') '{' (bg ';')* '}';""";
+	}
+	text{
+		position= 50%, 50%;
+		color= #fff;
+		font-size= 17;
+		font-family= "Courier New";
+		content= """transform   : position | width | height ;
+			text_prop   : textCont | fontSize | fontFam | align | textColor ;
+			
+			
+			blur     : 'blur(' UNIDAD ')';
+			brightness : 'brightness(' UNIDAD ')';
+			contrast  : 'contrast(' UNIDAD ')';
+			grayscale : 'grayscale(' UNIDAD ')';
+			hue_rotate : 'hue-rotate(' (INT | FLOAT) 'deg)';
+			invert    : 'invert(' UNIDAD ')';
+			saturate  : 'saturate(' UNIDAD ')';
+			opacity   : 'opacity(' UNIDAD ')';
+
+
+			filter   : 'filter=' ( blur | brightness | 
+								contrast | grayscale | hue_rotate | 
+								invert | saturate | opacity)*;
+
+			src         : 'src=' STR;
+			position    : 'position=' UNIDAD ',' UNIDAD;
+			rotation    : 'rotation=' NUMBER;
+			width       : 'width='  UNIDAD;
+			height      : 'height='  UNIDAD;
+			textCont    : 'content=' (STR | TEXT_BLOCK);
+			fontSize    : 'font-size=' INT;
+			fontFam     : 'font-family=' STR;
+			align       : 'align=' ALIGN;
+			textColor   : 'color=' HEX;
+			bg          : 'bg=' (HEX | STR);
+
+			ALIGN: 'center' | 'left'| 'right' | 'justified';""";
+	}
+	text{
+		position= 80%, 50%;
+		color= #fff;
+		font-size= 17;
+		font-family= "Courier New";
+		content= """UNIDAD: PERCENTAGE | PIXEL ;
+			PERCENTAGE: NUMBER '%';
+			PIXEL: INT 'px';
+
+			INT : [0-9]+ ;
+			FLOAT : [0-9]'.'[0-9]*;
+			NUMBER : (INT | FLOAT);
+			HEX: '#'[a-fA-F0-9]*;
+			STR : '"' (~[\r\n])* '"' ;
+			TEXT_BLOCK : '" " "' .*? '" " "';
+			LINE_COMMENT: '//' ~[\r\n]* -> skip;
+			BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+
+			WS  : [ \t\r\n]+ -> skip; """;
+	}
+}
+slide {
+	bg {
+		bg= #22211E;
+	}
+	image {
+		position= 50%, 50%;
+		width= 100%;
+		height= 100%;
+		src= "https://wallpapers.com/images/hd/1920-x-1080-hd-1qq8r4pnn8cmcew4.jpg";
+		filter= brightness(50%) blur(5px);
+	}
+	text {
+		position= 50%, 50%;
+		font-size= 100;
+		content= "EJEMPLO";
+		color= #f80;
+		align= center;
+	}
+}
+slide {
+	bg {
+		bg= #22211E;
+	}
+	image {
+		position= 50%, 50%;
+		width= 100%;
+		height= 100%;
+		src= "https://img.freepik.com/premium-photo/sunset-mountains-wallpapers_68067-1715.jpg";
+		filter= brightness(50%) blur(5px);
+	}
+	image {
+		position= 50%, 50%;
+		width= 1400px;
+		height= 800px;
+		src= "https://static.vecteezy.com/system/resources/thumbnails/044/303/796/small/abstract-wrapping-paper-rolling-on-a-black-background-concept-of-gifts-and-celebrations-design-two-rolls-of-decorative-gift-paper-in-motion-video.jpg";
+		filter= opacity(80%);
+	}
+	text {
+		position= 50%, 50%;
+		font-size= 100;
+		content= "Gracias";
+		color= #fff;
+		align= center;
+	}
+}
