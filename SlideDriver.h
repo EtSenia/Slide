@@ -54,7 +54,7 @@ public:
         string cssOutput = generateCSS();
         string jsOutput = generateJS();
 
-        saveFile("presentation.html", htmlOutput);
+        saveFile("index.html", htmlOutput);
         saveFile("style.css", cssOutput);
         saveFile("script.js", jsOutput);
 
@@ -153,12 +153,14 @@ public:
         {
             visit(child);
         }
-        slideOutput += " filter:";
-        for (auto f : filters)
-        {
-            slideOutput +=  f + " ";
+        if (!filters.empty()){
+            slideOutput += " filter:";
+            for (auto f : filters)
+            {
+                slideOutput +=  f + " ";
+            }
         }
-        slideOutput += "\">\n";
+            slideOutput += "\">\n";
         return nullptr;
     }
 
