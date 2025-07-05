@@ -6,7 +6,7 @@ slide {
 		position=80%, 50%;
 		width= 40%;
 		height= 100%;
-		src= "https://www.builderspace.com/wp-content/uploads/2022/05/modern-buildings-1024x682.jpg";
+		src= "Buildings.jpg";
 	}
 	image {
 		position=1820px, 980px;
